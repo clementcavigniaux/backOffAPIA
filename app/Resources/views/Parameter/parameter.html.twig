@@ -1,0 +1,169 @@
+<h1>Parameter</h1>
+
+{% for key, item in param %}
+
+    <div class="row tarif">
+        <div class="col s10">
+        <h5>Tarif Horaire</h5>
+            <form method="post" id="formChangeprix">
+                <div class="col s4 input-field">
+                <input type="text" id="PrixReal" name="PrixReal" value="{{ item.PrixReal }}"/>
+                <label for="PrixReal">Tarif Réalisation</label>
+                </div>
+                <div class="col s4 input-field">
+                <input type="text" id="PrixProd" name="PrixProd" value="{{ item.PrixProd }}"/>
+                <label for="PrixProd">Tarif Production</label>
+                </div>
+                <div class="col s12 input-field">
+                    <input type="submit" class="btn btn_form_green">
+                </div>
+            </form>
+            </div>
+        </div>
+    <div class="row banque">
+        <div class="col s10">
+        <h5>Info Banque</h5>
+        <form method="post" id="formBanque">
+            <div class="col s4 input-field">
+                <input type="number" id="numCompte" name="numCompte" value="{{ item.numCompte }}"/>
+                <label for="numCompte">Numéro de Compte</label>
+            </div>
+            <div class="col s4 input-field">
+                <input type="text" id="NomBanque" name="NomBanque" value="{{ item.NomBanque }}"/>
+                <label for="NomBanque">Nom de Banque</label>
+            </div>
+            <div class="col s12 input-field">
+                <input type="submit" class="btn btn_form_green">
+            </div>
+        </form>
+    </div>
+    </div>
+    <div class="row administratif">
+        <div class="col s10">
+        <h5>Info Administrative</h5>
+        <form method="post" id="formAdministrative">
+            <div class="col s4 input-field">
+                <input type="text" id="adresseApia" name="adresseApia" value="{{ item.adresseApia }}"/>
+                <label for="adresseApia">Adresse d'APIA</label>
+            </div>
+            <div class="col s4 input-field">
+                <input type="number" id="telApia" name="telApia" value="{{ item.telApia }}"/>
+                <label for="telApia">Numéro APIA</label>
+            </div>
+            <div class="col s4 input-field">
+                <input type="number" id="SIRETAPIA" name="SIRETAPIA" value="{{ item.SIRETAPIA }}"/>
+                <label for="SIRETAPIA"> SIRET APIA</label>
+            </div>
+            <div class="col s4 input-field">
+                <input type="number" id="numAPIA" name="numAPIA" value="{{ item.numAPIA }}"/>
+                <label for="numAPIA"> Numéro APIA</label>
+            </div>
+            <div class="col s12 input-field">
+                <input type="submit" class="btn btn_form_green">
+            </div>
+        </form>
+        </div>
+    </div>
+
+{% endfor %}
+
+<script>
+
+    $(document).ready(function() {
+        Materialize.updateTextFields();
+
+        $('#formChangeprix').submit(function () {
+            event.preventDefault();
+
+            var values = {};
+            $.each( $(this).serializeArray(), function(i, field) {
+                values[field.name] = field.value;
+            });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ path('modifprix') }}',
+                    data: values,
+                    statusCode: {
+
+                        200: function () {
+                            $response = "Modification réussi";
+                            Materialize.toast($response, 2000);
+                        },
+
+                        404: function (response) {
+                            Materialize.toast(response.responseText, 2000);
+                            alert('wrong');
+                            console.log(responseText);
+
+                        }
+                    }
+                });
+                return false;
+        });
+
+        $('#formBanque').submit(function () {
+           event.preventDefault();
+
+            var values = {};
+            $.each( $(this).serializeArray(), function(i, field) {
+                values[field.name] = field.value;
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ path('modifbanque') }}',
+                data: values,
+                statusCode: {
+
+                    200: function (responseText) {
+                        Materialize.toast(responseText, 2000);
+                        alert('ok');
+                    },
+
+                    404: function (response) {
+                        Materialize.toast(response.responseText, 2000);
+                        alert('wrong');
+                        console.log(responseText);
+
+                    }
+                }
+            });
+            return false;
+        });
+
+        $('#formAdministrative').submit(function () {
+            event.preventDefault();
+
+            var values = {};
+            $.each( $(this).serializeArray(), function(i, field) {
+                values[field.name] = field.value;
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ path('modifadministratif') }}',
+                data: values,
+                statusCode: {
+
+                    200: function (responseText) {
+                        Materialize.toast(responseText, 2000);
+                        alert('ok');
+                    },
+
+                    404: function (response) {
+                        Materialize.toast(response.responseText, 2000);
+                        alert('wrong');
+                        console.log(responseText);
+
+                    }
+                }
+            });
+            return false;
+        });
+    });
+
+
+
+
+</script>

@@ -1,0 +1,62 @@
+{% block header %}
+<header id="header">
+    <div id="Logo">
+        {% image '@AppBundle/Resources/public/img/logo.png' %}
+        <a href="#" ><img src="{{ asset_url }}" alt="logo" class="brand-logo"/></a>
+        {% endimage %}
+    </div>
+    <nav id="nav">
+        <ul class="collapsible" data-collapsible="accordion" id="navbar">
+            <li id="Home" class="active item-navbar"><a>Accueil</a></li>
+
+            <li id="Page-Gestion-Adhesion" class="item-navbar">
+                <div class="collapsible-header waves-effect" id="">Adhérent</div>
+                <div class="collapsible-body">
+                    <ul>
+                        <li><a class="sousMenuItem" id="">Voir les Adhérents</a></li>
+                        {% if is_granted('ROLE_REGIS') or is_granted('ROLE_TRESOR') %}
+                        <li><a class="sousMenuItem" id="">Ajouter un Adhérents</a></li>
+                        <li><a class="sousMenuItem">Ancien Adhérents</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </li>
+            <li id="Page-Devis" class="item-navbar">
+                <div class="collapsible-header waves-effect" id="devis"> Devis</div>
+                <div class="collapsible-body">
+            <ul>
+                <li><a class="sousMenuItem" id="Show-Devis">Voir les devis</a></li>
+                {% if is_granted('ROLE_REGIS') or is_granted('ROLE_TRESOR') %}
+                <li><a class="sousMenuItem" id="createdevis">Créer un devis</a></li>
+                    <li><a class="sousMenuItem" id="brouillons">Brouillons <span class="notif">{{ nbBrouillon }}</span></a></li>
+                {% endif %}
+            </ul>
+                </div>
+            </li>
+            <li id="Page-Gestion-Client" class="item-navbar">
+                <div class="collapsible-header waves-effect">Client</div>
+                <div class="collapsible-body">
+                    <ul>
+                        <li><a class="sousMenuItem" id="client">Liste client</a></li>
+                        <li><a class="sousMenuItem" id="">Ajouter un client</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li id="Page-Stat" class="item-navbar"><a>Statistiques</a></li>
+            <li id="parameter" class="item-navbar"><a>Paramètres</a></li>
+            <li><a href="/logout">Déconnexion</a></li>
+
+            <div id="Collapse" class="header_bottom">
+                Réduire
+            </div>
+
+        </ul>
+    </nav>
+    </div>
+</header>
+    <div class="btn btn-floating" id="navCollapse">{% image '@AppBundle/Resources/public/img/menu.svg' %}
+        <img src="{{ asset_url }}" alt="suivant" class="menu"/>
+        {% endimage %}</div>
+{% endblock %}
+
+

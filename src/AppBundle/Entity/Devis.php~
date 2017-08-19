@@ -1,0 +1,337 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Devis
+ */
+class Devis
+{
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
+     */
+
+    private $client;
+
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $idClient;
+
+    /**
+     * @var string
+     */
+    private $titreProjet;
+
+    /**
+     * @var array
+     */
+    private $typePresta;
+
+    /**
+     * @var array
+     */
+    private $qty;
+
+    /**
+     * @var array
+     */
+    private $prixUnitaire;
+
+    /**
+     * @var array
+     */
+    private $prixCategorie;
+
+    /**
+     * @var string
+     */
+    private $prixTotal;
+
+    /**
+     * @var \DateTime
+     */
+    public $dateCreation;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateModification;
+
+    /**
+     * @var string
+     */
+    public $idUser;
+
+    public function setAdvert(Client $client)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    public function getAdvert()
+    {
+        return $this->client;
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set idClient
+     *
+     * @param string $idClient
+     *
+     * @return Devis
+     */
+    public function setIdClient($idClient)
+    {
+        $this->idClient = $idClient;
+
+        return $this;
+    }
+
+    /**
+     * Get idClient
+     *
+     * @return string
+     */
+    public function getIdClient()
+    {
+        return $this->idClient;
+    }
+
+    /**
+     * Set titreProjet
+     *
+     * @param string $titreProjet
+     *
+     * @return Devis
+     */
+    public function setTitreProjet($titreProjet)
+    {
+        $this->titreProjet = $titreProjet;
+
+        return $this;
+    }
+
+    /**
+     * Get titreProjet
+     *
+     * @return string
+     */
+    public function getTitreProjet()
+    {
+        return $this->titreProjet;
+    }
+
+    /**
+     * Set typePresta
+     *
+     * @param array $typePresta
+     *
+     * @return Devis
+     */
+    public function setTypePresta($typePresta)
+    {
+        $this->typePresta = $typePresta;
+
+        return $this;
+    }
+
+    /**
+     * Get typePresta
+     *
+     * @return array
+     */
+    public function getTypePresta()
+    {
+        return $this->typePresta;
+    }
+
+    /**
+     * Set qty
+     *
+     * @param array $qty
+     *
+     * @return Devis
+     */
+    public function setQty($qty)
+    {
+        $this->qty = $qty;
+
+        return $this;
+    }
+
+    /**
+     * Get qty
+     *
+     * @return array
+     */
+    public function getQty()
+    {
+        return $this->qty;
+    }
+
+    /**
+     * Set prixUnitaire
+     *
+     * @param array $prixUnitaire
+     *
+     * @return Devis
+     */
+    public function setPrixUnitaire($prixUnitaire)
+    {
+        $this->prixUnitaire = $prixUnitaire;
+
+        return $this;
+    }
+
+    /**
+     * Get prixUnitaire
+     *
+     * @return array
+     */
+    public function getPrixUnitaire()
+    {
+        return $this->prixUnitaire;
+    }
+
+    /**
+     * Set prixCategorie
+     *
+     * @param array $prixCategorie
+     *
+     * @return Devis
+     */
+    public function setPrixCategorie($prixCategorie)
+    {
+        $this->prixCategorie = $prixCategorie;
+
+        return $this;
+    }
+
+    /**
+     * Get prixCategorie
+     *
+     * @return array
+     */
+    public function getPrixCategorie()
+    {
+        return $this->prixCategorie;
+    }
+
+    /**
+     * Set prixTotal
+     *
+     * @param string $prixTotal
+     *
+     * @return Devis
+     */
+    public function setPrixTotal($prixTotal)
+    {
+        $this->prixTotal = $prixTotal;
+
+        return $this;
+    }
+
+    /**
+     * Get prixTotal
+     *
+     * @return string
+     */
+    public function getPrixTotal()
+    {
+        return $this->prixTotal;
+    }
+
+    /**
+     * Set dateCreation
+     *
+     * @param \DateTime $dateCreation
+     *
+     * @return Devis
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreation
+     *
+     * @return string
+     */
+    public function getDateCreation()
+    {
+        return $this->dateCreation;
+    }
+
+    /**
+     * Set dateModification
+     *
+     * @param \DateTime $dateModification
+     *
+     * @return Devis
+     */
+    public function setDateModification($dateModification)
+    {
+        $this->dateModification = $dateModification;
+
+        return $this;
+    }
+
+    /**
+     * Get dateModification
+     *
+     * @return string
+     */
+    public function getDateModification()
+    {
+        return $this->dateModification;
+    }
+
+    /**
+     * Set idUser
+     *
+     * @param string $idUser
+     *
+     * @return Devis
+     */
+    public function setIdUser($idUser)
+    {
+        $this->idUser = $idUser;
+
+        return $this;
+    }
+
+    /**
+     * Get idUser
+     *
+     * @return string
+     */
+    public function getIdUser()
+    {
+        return $this->idUser;
+    }
+
+}
+

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <title>BackOffice</title>
+        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+-->
+
+        {% stylesheets 'css/*' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+
+
+        {% stylesheets 'css/main.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+
+        {% stylesheets output='font/roboto//Roboto-Regular.woff'%}{% endstylesheets %}
+    </head>
+    <body>
+
+    {% if is_granted('ROLE_ROOT') %}
+    {% block navbarAdmin %}
+
+        {{ include ('Admin/NavbarAdmin.html.twig') }}
+
+    {% endblock %}
+
+    {% endif %}
+
+    {% block header %}
+
+{{ include ('Header/header.html.twig') }}
+    {% endblock %}
+
+    <div id="Content">
+        {% block body %}
+            {{ include ('Home/home.html.twig') }}
+
+        {% endblock %}
+    </div>
+    <div id="popin" style="display: none"></div>
+    <div id="fond" style="display: none"></div>
+    {% javascripts 'js/*' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+-->
+    <script>
+
+        $('#Show-Devis').click(function () {
+            $min = 1;
+            $max = 10;
+            $('#Content').load("{{ path('devis') }}", {
+
+                min: $min,
+                max: $max
+            });
+        });
+        $('#Home').click(function () {
+            $(this).addClass('active');
+            $('#Content').load("{{ path('home') }}");
+        });
+        $('#createdevis').click(function () {
+            $('#Content').load("{{ path('createdevis') }}");
+        });
+
+        $('#client').click(function () {
+            $('#Content').load("{{ path('client') }}");
+        });
+        $('#Page-Stat').click(function () {
+            $('#Content').load("{{ path('stat') }}");
+
+        });
+
+        $('#brouillons').click(function () {
+           $('#Content').load("{{ path('brouillons') }}");
+        });
+
+        $('#parameter').click(function () {
+            $('#Content').load("{{ path('parameter') }}");
+        });
+
+
+        $('.button-collapse').sideNav({
+                menuWidth: 300,
+                edge: 'right'
+            }
+        );
+        $('#navbar li').click(function () {
+           $('.item-navbar').removeClass('active');
+           $(this).addClass('active');
+        });
+
+        $('#Collapse').click(function () {
+            $("#header").css('left', '-500px');
+            $("#navCollapse").css('left', '50px');
+           $('#Content').addClass('headerFull');
+        });
+
+        $('#navCollapse').on('click', function () {
+            $("#header").css('left', '0px');
+            $("#navCollapse").css('left', '-500px');
+            $('#Content').removeClass('headerFull');
+        });
+    </script>
+
+    </body>
+</html>

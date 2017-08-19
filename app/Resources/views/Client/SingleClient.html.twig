@@ -1,0 +1,156 @@
+    <td colspan="5">
+        <div class="row">
+        <form action="#" id="formUpdate" class="col s12">
+        {% for test in listtest %}
+            <div class="row">
+                <input type="hidden" value="{{ test.id }}" name="id" id="id"  class="showClientInput">
+            <div class="input-field col s4">
+                <input type="text" id="name" class="showClientInput" name="nom" value="{{ test.nom }}" disabled>
+                <label for="name"> Nom de l'entreprise</label>
+            </div>
+                <div class="input-field col s4">
+                    <select name="type" id="type" class="showClientInput" disabled>
+                        <option value="{{ test.type }}">{{ test.type }}</option>
+                        <option value="Entreprise">Entreprise</option>
+                        <option value="Association"> Association </option>
+                        <option value="Administration"> Administration</option>
+                        <option value="Autre"> Autre...</option>
+                    </select>
+                </div>
+                <div class="input-field col s4">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s4">
+                    <input type="text" class="showClientInput" id="rue" name="rue" value="{{ test.rue }}" disabled>
+                    <label for="rue"> Rue</label>
+                </div>
+                <div class="input-field col s4">
+                    <input type="text" class="showClientInput" id="ville" name="ville" value="{{ test.ville }}" disabled>
+                    <label for="ville">Ville</label>
+                </div>
+                <div class="input-field col s4">
+                    <input type="number"  class="showClientInput" id="CP" name="CP" value="{{ test.CP }}" disabled>
+                    <label for="rue">Code Postal</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s4">
+                    <input type="number" id="tel" name="tel" class="showClientInput" value="{{ test.tel }}" disabled>
+                    <label for="tel">Tel</label>
+                </div>
+                <div class="input-field col s4">
+                    <input type="email" id="email" name="email" class="showClientInput" value="{{ test.email }}" disabled>
+                    <label for="email">Email</label>
+                </div>
+                <div class="input-field col s4">
+                    <input type="text" id="interlo" name="interlo" class="showClientInput" value="{{ test.Interlocuteur }}" disabled>
+                    <label for="interlo">Interlocuteur</label>
+                </div>
+                <div class="input-field col s4">
+                </div>
+            </div>
+            <div class="row>">
+                <div class="input-field col s4">
+                    <input type="text" id="siret" name="siret" value="{{ test.SIRET }}" class="showClientInput" disabled>
+                    <label for="siret">SIRET</label>
+                </div>
+                <div class="input-field col s4">
+                    <input type="text" id="iban" name="iban" value="{{ test.IBAN }}" class="showClientInput" disabled>
+                    <label for="iban">IBAN</label>
+                </div>
+            </div>
+        {% endfor %}
+        </form>
+    {% if is_granted('ROLE_REGIS') or is_granted('ROLE_TRESOR') %}
+
+    <div class="btn_FormTab">
+        <button id="modifClient" class="btn waves-effect btn_Unlock btn_form_green btn_client">Modifier Informations</button>
+        <button id="removeClient" class="btn waves-effect btn_form_red btn_client">Supprimer</button>
+</div>
+    {% endif %}
+            </form>
+        </div>
+    </td>
+
+<script>
+    $(document).ready(function() {
+        Materialize.updateTextFields();
+
+    });
+
+        $("#modifClient").click(function(){
+        $(".showClientInput").removeAttr('disabled');
+        $(".btn_client").css("display", "none");
+        $(".btn_FormTab").append("<button id='modifClient' class='btn waves-effect btn_form_green btn_Save'>Sauvegarder</button><button id='btn_Cancel' class='btn waves-effect btn_form_red'>Annuler</button>");
+
+            $('#btn_Cancel').click(function() {
+                $(this).parent().parent().parent().slideToggle(500).html(" ");
+                $('.rowtab').removeClass('rowActive');
+                return false;
+            });
+
+            $(".btn_Save").click(function () {
+
+                var values = {};
+                $.each( $("#formUpdate").serializeArray(), function(i, field) {
+                    values[field.name] = field.value;
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ path('UpdateClient') }}",
+                    data: values,
+                    statusCode: {
+
+                        200: function () {
+                            Materialize.toast( 'Modication réussie', 2000);
+                            $('.toast').css('background-color','#4CAF50');
+                            $('#Content').load('{{ path('client') }}');
+                        },
+
+                        412: function (response) {
+                            Materialize.toast( 'Erreur', 2000);
+                            $('.toast').css('background-color','#F44336');
+                            alert('wrong');
+                        }
+                    }
+            });
+
+
+                return false;
+        });
+
+            return false;
+    });
+        $("#removeClient").click(function () {
+
+            var values = {};
+            $.each( $("#formUpdate").serializeArray(), function(i, field) {
+                values[field.name] = field.value;
+            });
+
+           $.ajax({
+               type: 'POST',
+               url: "{{ path('RemoveClient') }}",
+               data: values,
+               statusCode: {
+
+                   200: function () {
+                       Materialize.toast('Suppression réussie', 2000);
+                       $('#Content').load('{{ path('client') }}');
+                   },
+
+                   412: function () {
+                       Materialize.toast('ERREUR', 2000);
+                   }
+               }
+
+           });
+           return false;
+        });
+
+
+
+
+</script>

@@ -1,0 +1,49 @@
+AppBundle\Entity\Brouillon:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\BrouillonRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        idClient:
+            type: string
+            length: 255
+            nullable: true
+        titreProjet:
+            type: string
+            length: 255
+            nullable: true
+        typePresta:
+            type: array
+            nullable: true
+        qty:
+            type: array
+            nullable: true
+        prixUnitaire:
+            type: array
+            nullable: true
+        prixCategorie:
+            type: array
+            nullable: true
+        prixTotal:
+            type: string
+            length: 255
+            nullable: true
+        dateCreation:
+            type: string
+            length: 255
+        dateModification:
+            type: string
+            length: 255
+            nullable: true
+        idUser:
+            type: string
+            length: 255
+            column: id_user
+            nullable: true
+    lifecycleCallbacks: {  }
+

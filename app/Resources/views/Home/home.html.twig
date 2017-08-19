@@ -1,0 +1,14 @@
+
+
+{% block body %}
+
+
+
+<h5> Vue d'ensemble</h5>
+
+    Bonjour {{ app.user.name }}<br>
+    Votre dernière connexion était le {{ app.user.lastlogin|date('d-m-Y') }} à {{ app.user.lastlogin|date('H:i') }}
+
+    {{ "now"|date("H:i") }}
+
+{% endblock %}

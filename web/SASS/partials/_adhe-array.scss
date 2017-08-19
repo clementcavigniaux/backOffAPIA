@@ -1,0 +1,19 @@
+.table-bloc{
+  background-color: darken($fond, 2%);
+  padding:10px;
+  table{
+
+    thead{
+      background-color: lighten(black, 40%);
+      color:$fond;
+      @include box-shadow-1;
+      border: 0px;
+    }
+  tr{
+    td{
+      padding: 9px 13px;
+    }
+  }
+  }
+}
+

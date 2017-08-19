@@ -1,0 +1,18 @@
+$maincolor: #C62828;
+$fond: #f9f9f9;
+
+@mixin center-bloc {
+  left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+body{
+  background-color: $maincolor;
+}
+.ConnectBloc{
+  background-color: $fond;
+  padding: 10px !important;
+margin-top: 15%;
+@include box-shadow-1;
+}

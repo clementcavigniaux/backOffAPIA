@@ -1,0 +1,38 @@
+<h1>Brouillons</h1>
+<div class="tab">
+    <table class="striped tab_devis">
+        <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Client</th>
+            <th>Type</th>
+            <th>Prix</th>
+            <th>Date de création</th>
+        </tr>
+        </thead>
+        <tbody>
+{% for key, brouillon in listbrouillon %}
+    <tr class="brouillon_item" data-id="{{ brouillon.id }}">
+
+        <td>{{ brouillon.titreprojet }}</td>
+        <td>
+
+            {% for key, client in listClient %}
+                {% if brouillon.idClient == client.id %}
+                    {{ client.nom }}
+                {% endif %}
+            {% endfor %}
+        </td>
+        <td>
+            {% for key, item in brouillon.typepresta %}
+                {{ item }}
+            {% endfor %}
+        </td>
+        <td>{{ brouillon.prixTotal }}€</td>
+        <td>{{ brouillon.datecreation|date('d/m/Y') }}</td>
+
+    </tr>
+{% endfor%}
+        </tbody>
+    </table>
+</div>

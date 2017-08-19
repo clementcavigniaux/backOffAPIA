@@ -1,0 +1,43 @@
+AppBundle\Entity\Parameter:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\ParameterRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        prixReal:
+            type: string
+            length: 255
+            column: PrixReal
+        prixProd:
+            type: string
+            length: 255
+            column: PrixProd
+        numCompte:
+            type: string
+            length: 255
+            unique: true
+        adresseAPIA:
+            type: string
+            length: 255
+        telAPIA:
+            type: string
+            length: 255
+        nomBanque:
+            type: string
+            length: 255
+            column: NomBanque
+        sIRETAPIA:
+            type: string
+            length: 255
+            unique: true
+            column: SIRETAPIA
+        numAPIA:
+            type: string
+            length: 255
+            column: numAPIA
+    lifecycleCallbacks: {  }

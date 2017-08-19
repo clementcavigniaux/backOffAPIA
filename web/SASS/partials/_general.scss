@@ -1,0 +1,254 @@
+
+
+body{
+  background-color: $fond;
+}
+header{
+  min-height:100%;
+  height: 100vh;
+  background-color: $maincolor;
+  @include box-shadow-5;
+  position: fixed;
+  width: 200px;
+  transition: 0.5s;
+}
+.header_bottom{
+  position: absolute;
+  top: 90%;
+  left: 0px;
+  width: 100%;
+  text-align: center;
+}
+.btn{
+  background-color: $maincolor;
+  color: $fond;
+  &:hover, &:focus{
+    background-color: darken($maincolor, 10%);
+    color: $white;
+  }
+  &-center{
+    text-align: center;
+  }
+  &_FormTab{
+    float: right;
+    width: 35%;
+  }
+  &_Save{
+    margin-right: 2%;
+
+  }
+  &_form{
+
+    &_red{
+      background-color: $red;
+      color: $white;
+    }
+    &_green{
+      background-color: $validate;
+      &:hover{
+        background-color: darken($validate, 10%) !important;
+      }
+    }
+  }
+}
+.btn-full{
+  width: 100%;
+}
+h1, h2, h3, h4, h5{
+  color:$maincolor;
+}
+#Content{
+  padding: 3% 0 0 250px;
+  transition: 0.5s;
+}
+nav{
+  background: none;
+  box-shadow: none;
+  position: relative;
+  height: 90%;
+  color:#fff;
+  ul{
+
+  }
+  li{
+    width: 100%;
+  }
+}
+.bloc {
+  background-color: darken($fond, 2%);
+  @include box-shadow-1;
+  &_single{
+    padding: 20px;
+    width:50%;
+    margin: 0 auto;
+  }
+
+
+}
+td, th{
+border-radius: 0px;
+}
+thead tr:hover{
+  background-color: transparent !important;
+}
+tr:hover{
+  background-color: lighten(black, 85%) !important;
+  transition: .5s;
+}
+.rowLabel{
+  &:hover{
+    background-color: initial !important;
+  }
+}
+#navbarCollapseList{
+  li{
+    float: right;
+    a{
+      float: right;
+    }
+  }
+}
+.btn-collapse{
+  float: right;
+}
+#popin {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  background-color: $fond;
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  padding: 20px;
+  max-height: 600px;
+  overflow-y: scroll;
+  min-width: 400px;
+}
+#formUpdate{
+  padding: 20px;
+}
+.collapsible-header, .collapsible-body, .collapsible{
+  background-color: transparent;
+  border:0px;
+}
+.collapsible-body{
+  padding: 0px;
+}
+.sousMenuItem{
+  padding-left: 2rem;
+}
+input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]){
+  border-color: $maincolor;
+  box-shadow: 0 1px 0 0 $maincolor;
+  height: 3rem;
+}
+input:active, input:focus{
+  color: $black !important;
+  border-color: $maincolor !important;
+  box-shadow: none !important;
+}
+input[type=text]:not(.browser-default):focus:not([readonly])+label{
+
+  color:inherit;
+}
+select{
+  display: block;
+}
+.tab {
+    width: 98%;
+}
+.hidden{
+  display: none !important;
+}
+#fond{
+  background-color: rgba(0,0,0,0.6);
+  min-width: 100vw;
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+left: 0;
+  transition-duration: 10s;
+}
+.alert{
+  width: 100%;
+  text-align: center;
+  color: $white;
+  padding: 8px;
+  &-danger{
+   background-color: $red;
+  }
+}
+#Logo{
+  text-align: center;
+  margin-top: 5%;
+}
+.brand-logo{
+  width: 60%;
+}
+.cart{
+  padding: 10px;
+  @include box-shadow-1;
+  margin: 10px 10px 0 0;
+  background-color: $white;
+  &_devis{
+    width: 30%;
+
+  }
+  &_tarif{
+
+  }
+}
+.notif{
+  background-color: $white;
+  padding: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+  border-radius: 100%;
+  color: $black;
+  margin-left: 2%;
+}
+.chevron{
+  height: 32px;
+  width: 17px;
+}
+.numPage{
+  padding: 5px;
+
+}
+.pagination li.active{
+  padding: 5px;
+  color: $white;
+  background-color: $maincolor;
+}
+.pagination{
+  margin: 20px 10px 0 10px;
+}
+.grey-info{
+  font-size: 10px;
+  color: $grey;
+}
+#noData{
+  transition: 0.5s;
+
+}
+#navCollapse{
+  position: fixed;
+  left: -500px;
+  top: 90%;
+}
+.headerFull{
+  padding-left: 5% !important;
+}
+.btn-floating{
+  line-height: 48px;
+}
+.menu , .trash{
+  width: 20px;
+}
+.tdCheck{
+  width: 50px;
+}
+#action{
+  background-color: $cleargrey;
+  padding: 10px;
+}

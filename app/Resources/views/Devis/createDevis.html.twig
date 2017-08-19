@@ -1,0 +1,261 @@
+
+<div class="createDevis">
+    <h5>Création de devis</h5>
+    <div class="row">
+    {{ form_start(form) }}
+    <label for="idClient">Client</label>
+    {{ form_widget(form.idClient)}}
+    <div class="input-field ">
+    {{ form_widget(form.titreProjet)}}
+        <label for="titreProjet">Titre</label>
+    </div>
+
+    {{ form_widget(form.typePresta , {'id' : 'typePresta'}) }}
+    <button class="btn btn_form_green" id="addItem">Ajouter</button>
+    {{ form_end(form) }}
+    <button class="btn blue" id="addBrouillon">Ajouter au brouillon</button>
+    <a href="#" id="cancel" class="btn">Annuler</a>
+</div>
+</div>
+</div>
+<script>
+    $(document).ready(function(){
+        $container = $("#typePresta");
+
+        $(".qty").attr('type', 'number');
+
+
+        var index = $container.find(':input').length;
+
+        $("#addItem").click(function () {
+            addItem($container);
+            return false;
+        });
+        $container.addClass(index);
+
+
+        if(index === 0){
+            addItem($container);
+            return false;
+        }else{
+            $("#typePresta").child('div').each(function () {
+                addDeleteItem($(this));
+                alert('oui');
+            });
+
+        }
+
+        function addItem($container) {
+            var template = $container.attr('data-prototype').replace(/__name__label__/g, 'Prestation n°' + (index+1)).replace(/__name__/g, index).replace('<div>', '<div class="cart cart_devis">');
+            var $proto = $(template);
+
+            $container.addClass('ItemDevis');
+            $index = index;
+            addDeleteItem($proto);
+            $container.append($proto);
+            changeItem();
+            index++;
+        }
+
+        function addDeleteItem($proto) {
+            var $deleteItem = $('<button class="btn btn_form_red" id="supprItem">Supprimer</button>');
+
+            $proto.append($deleteItem);
+
+            $deleteItem.click(function(){
+               $proto.remove();
+
+               total();
+
+               return false;
+            });
+        }
+
+
+        $("#cancel").click(function () {
+           $("#popin").addClass('hidden');
+        });
+
+    });
+    {% for key, item in param %}
+
+
+
+    function changeItem () {
+
+        var ReaPrix = "{{ item.PrixReal }}";
+        var ProdPrix = "{{ item.PrixProd }}";
+
+        $('.type').on('change', function () {
+            $id = $(this).parent('div').attr('id');
+
+            $add = "_prixUnitaire";
+            $link= $id + $add;
+
+            $link = $(this).parent('div').next('div').next('div').children('input');
+
+
+            if($(this).val() === "Production"){
+                $link.val(ProdPrix);
+
+            }else if($(this).val() === "Réalisation") {
+
+                $link.val(ReaPrix);
+
+            }else{
+                $link.val(" ");
+
+            }
+        });
+        $('.qty').on('change', function(){
+
+            $qty = $(this).val();
+
+            $prixU = $(this).parent('div').next('div').children('input').val();
+
+            calcul($qty, $prixU);
+
+            $(this).parent('div').next('div').next('div').children('input').val($result);
+            total();
+
+
+        });
+
+
+        $('.prixU').on('change', function(){
+
+            $prixU = $(this).val();
+
+            $qty = $(this).parent('div').prev('div').children('input').val();
+
+            calcul($qty, $prixU);
+
+            $(this).parent('div').next('div').children('input').val($result);
+            console.log($result);
+            total();
+
+        });
+
+        function calcul(){
+
+            $result = $qty * $prixU;
+            $result = $result.toFixed(2);
+            return $result;
+
+        }
+
+    }
+    setTimeout( changeItem, 500);
+
+    function total(){
+        $total = 0;
+        $(".totalcart").each(function (i,n) {
+
+            $total += parseFloat($(this).val());
+        });
+
+        $total = $total.toFixed(2);
+        $('#prixTotal').val($total);
+
+        return false;
+    }
+
+
+{%  endfor %}
+
+    function ajax() {
+        $.ajax({
+            type: 'POST',
+            url: $url,
+            data: $data,
+            statusCode: {
+
+                200: function (response) {
+                    Materialize.toast(response, 2000);
+
+                },
+
+                412: function (response) {
+                    Materialize.toast(response, 2000);
+                    alert('wrong');
+                }
+            }
+
+        });
+        return false;
+    }
+
+    $('#formCreateDevis').submit(function(){
+        event.preventDefault();
+
+        var values = {};
+        $.each( $(this).serializeArray(), function(i, field) {
+            values[field.name] = field.value;
+        });
+
+        $data = values;
+        $url = "{{ path('newdevis') }}";
+
+        $.ajax({
+            type: 'POST',
+            url: $url,
+            data: $data,
+            statusCode: {
+
+                200: function () {
+                    swal({
+                            title: "Devis Enregistré !",
+                            text: "Que voulez-vous faire ?",
+                            type: "question",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Télécharger le Devis",
+                            closeOnConfirm: false
+                        },
+                        function(){
+                            swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                        });
+
+                },
+
+                412: function (response) {
+                    Materialize.toast(response, 2000);
+                    alert('wrong');
+                }
+            }
+
+        });
+        return false;
+
+
+        });
+
+    $('#addBrouillon').click(function () {
+
+//brouillon();
+
+    });
+    function brouillon() {
+
+        var values = {};
+        $.each( $('#formCreateDevis').serializeArray(), function(i, field) {
+            values[field.name] = field.value;
+        });
+
+        console.log(values);
+        $data = values;
+        $url = "{{ path('addBrouillon') }}";
+
+        ajax($url, $data );
+    }
+        function goPDF() {
+            $("#goPDF").on('click', function () {
+                $('#popin').fadeOut();
+                $('#fond').fadeOut();
+                $('#Content').load('{{ path('devispdfeditor') }}');
+            });
+        }
+
+</script>
+
+

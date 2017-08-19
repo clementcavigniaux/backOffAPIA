@@ -1,0 +1,15 @@
+.NavbarAdmin{
+ right: 0;
+ top: 80%;
+ position: fixed;
+ padding: 10px 10px 5px 10px;
+ background-color: $maincolor;
+&:hover{
+ background-color: $black;
+ transition: 0.5s;
+}
+&_img{
+ height: 30px;
+
+}
+}

@@ -1,0 +1,42 @@
+
+
+{{ form_start(form) }}
+<h5>Nouveau Client</h5>
+
+{{ form_widget(form) }}
+{{ form_end(form) }}
+
+<script>
+
+    $('#formNewUser').submit(function () {
+        event.preventDefault();
+
+        var values = {};
+        $.each( $(this).serializeArray(), function(i, field) {
+            values[field.name] = field.value;
+        });
+
+        console.log(values);
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ path('newdevis') }}",
+            data: values,
+            statusCode: {
+
+                200: function () {
+                    Materialize.toast('Modication réussie', 2000);
+                    $('#Content').load('{{ path('client') }}');
+                },
+
+                412: function (response) {
+                    Materialize.toast(response.error, 2000);
+                    alert('wrong');
+                }
+            }
+        });
+
+        return false;
+        });
+
+</script>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% stylesheets 'css/materialize.min.css' filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    {% stylesheets 'css/main.css' filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+</head>
+<body id="login">
+
+ <div class="login_box">
+    <form action="{{ path('login_check') }}" method="post">
+        <label for="username">Login
+        <input type="text" id="username" name="_username" value="{{ last_username }}" />
+        </label>
+        <label for="password">Mot de passe :
+        <input type="password" id="password" name="_password" />
+        </label>
+        <br />
+        <input class="btn btn-center" type="submit" value="Connexion" />
+    </form>
+        </div>
+    {% javascripts 'js/*' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+ {% if error %}
+     <div class="alert alert-danger" style="display: none">{{ error.message }}</div>
+     <script>
+         $(".alert").slideToggle('200').delay('5000').slideToggle('200');
+     </script>
+ {% endif %}
+
+</body>
+</html>

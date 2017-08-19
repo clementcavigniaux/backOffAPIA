@@ -1,0 +1,41 @@
+@import "./partials/mixins";
+@import "./partials/variables";
+@import "./partials/connexion";
+@import "./partials/adhe-array";
+@import "./partials/general";
+
+/* HOME*/
+@import "./partials/Home/homeStyle";
+
+
+
+/* ADHE  */
+
+@import "./partials/Adhe/adheStyle";
+
+
+/* DEVIS */
+
+
+@import "./partials/Devis/style";
+
+
+/* ADMIN */
+
+
+@import "./partials/Admin/admin";
+
+
+/* CLIENT */
+
+@import "./partials/Client/style";
+
+
+/* LOGIN */
+
+@import "./partials/Login/login";
+
+
+/*Parameter*/
+
+@import "./partials/Parametre/style";

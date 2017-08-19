@@ -1,0 +1,59 @@
+AppBundle\Entity\Client:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\ClientRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        nom:
+            type: string
+            length: 255
+            unique: true
+            column: Nom
+        type:
+            type: array
+            column: Type
+        rue:
+            type: string
+            length: 255
+            column: Rue
+        ville:
+            type: string
+            length: 255
+            column: Ville
+        cP:
+            type: string
+            length: 255
+            column: CP
+        tel:
+            type: string
+            length: 255
+            unique: true
+            column: Tel
+        email:
+            type: string
+            length: 255
+            unique: true
+            column: Email
+        sIRET:
+            type: string
+            length: 255
+            nullable: true
+            unique: true
+            column: SIRET
+        iBAN:
+            type: string
+            length: 255
+            nullable: true
+            unique: true
+            column: IBAN
+        interlocuteur:
+            type: string
+            length: 255
+            nullable: true
+            column: Interlocuteur
+    lifecycleCallbacks: {  }

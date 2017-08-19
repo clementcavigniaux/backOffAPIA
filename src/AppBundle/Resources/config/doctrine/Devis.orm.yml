@@ -1,0 +1,42 @@
+AppBundle\Entity\Devis:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\DevisRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        idClient:
+            type: string
+            length: 255
+        titreProjet:
+            type: string
+            length: 255
+        typePresta:
+            type: array
+        qty:
+            type: array
+        prixUnitaire:
+            type: array
+        prixCategorie:
+            type: array
+        prixTotal:
+            type: string
+            length: 255
+        dateCreation:
+            type: string
+            length: 255
+        dateModification:
+            type: string
+            length: 255
+            nullable: true
+        idUser:
+            type: string
+            length: 255
+            column: id_user
+            nullable: true
+    lifecycleCallbacks: {  }
+
