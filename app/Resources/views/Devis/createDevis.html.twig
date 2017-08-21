@@ -204,16 +204,22 @@
 
                 200: function () {
                     swal({
-                            title: "Devis Enregistré !",
-                            text: "Que voulez-vous faire ?",
-                            type: "question",
+                            title: "Que voulez vous faire ?",
+                            text: "",
+                            type: "info",
                             showCancelButton: true,
                             confirmButtonColor: "#DD6B55",
-                            confirmButtonText: "Télécharger le Devis",
-                            closeOnConfirm: false
+                            confirmButtonText: "Télécharger",
+                            cancelButtonText: "Revenir au devis",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
                         },
-                        function(){
-                            swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                        function(isConfirm){
+                            if (isConfirm) {
+                                swal("Téléchargé !", "Le devis a été téléchargé", "success");
+                            } else {
+                                swal("Devis Sauvegardé", "Le devis a été sauvegardé", "info");
+                            }
                         });
 
                 },

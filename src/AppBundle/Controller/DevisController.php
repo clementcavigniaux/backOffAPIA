@@ -32,6 +32,17 @@ class DevisController extends Controller
 
     public function showList()
     {
+
+        return $this->render('Devis/listDevis.html.twig');
+
+    }
+
+    /**
+     * @Route("/devistab", name="TabDevis")
+     */
+
+    public function getTable(){
+
         $em = $this->container->get("doctrine.orm.default_entity_manager");
         $client = $em->getRepository(Client::class)->createQueryBuilder('e')->join('AppBundle:Devis', 'r')->where('r.idClient = e.id')->getQuery()->getResult();
 
@@ -44,47 +55,52 @@ class DevisController extends Controller
         foreach ($count as $item) {
             $nb = $item[1];
         }
-    if ($nb > 0) {
-        if (!empty($_POST)) {
-            $min = $_POST['min'];
+            if ($nb > 0) {
+                if (!empty($_POST['min'])) {
+                    $min = $_POST['min'];
 
 
-            if (!empty($_POST['page'])) {
-                $page = $_POST['page'];
+                    if (!empty($_POST['page'])) {
+                        $page = $_POST['page'];
+                    } else {
+                        $page = 1;
+                    }
+
+                } else {
+                    $min = $last;
+                    $page = 1;
+                }
+                if(!empty($_POST['req'])){
+
+                    $req = $_POST['req'];
+                    $em = $this->container->get("doctrine.orm.default_entity_manager");
+                    $query = $em->createQuery('SELECT d FROM AppBundle:Devis d WHERE d.titreProjet LIKE :req OR d.typePresta LIKE :req')->setParameter('req' , '%'.$req.'%');
+                    //$query = $em->createQuery('SELECT d, c FROM AppBundle:Devis d JOIN AppBundle::Client c ON d.idClient = c.id  WHERE  d.titreProjet LIKE :req OR d.typePresta LIKE :req')->setParameter('req' , '%'.$req.'%');
+                    $devis = $query->getResult();
+
+                }elseif($min <= $last) {
+                    $em = $this->getDoctrine()->getManager();
+                    $query = $em->createQuery('SELECT d FROM AppBundle:Devis d WHERE d.id <= :min ORDER BY d.id DESC')->setParameter('min', $min)->setMaxResults(10);
+                    $devis = $query->getResult();
+
+                }
+
+                $nbPage = ceil($nb / 10);
+
+                $listPage = [];
+
+                for ($i = 0; $i < $nbPage; $i++) {
+
+                    $somme = $i + 1;
+                    $listPage[] = $somme;
+                }
             } else {
-                $page = 1;
+                $devis = [];
+                $nbPage = 0;
+                $page = 0;
+                $listPage = NULL;
             }
-
-        } else {
-            $min = 1;
-            $page = 1;
-        }
-
-        if ($min <= $last) {
-            $em = $this->getDoctrine()->getManager();
-            $query = $em->createQuery('SELECT d FROM AppBundle:Devis d WHERE d.id > :min ORDER BY d.id DESC')->setParameter('min' , $min)->setMaxResults(10);
-            $devis = $query->getResult();
-
-        }
-
-        $nbPage = ceil($nb / 10);
-
-        $listPage = [];
-
-        for ($i = 0; $i < $nbPage; $i++) {
-
-            $somme = $i + 1;
-            $listPage[] = $somme;
-        }
-    }else{
-            $devis = [];
-            $nbPage = 0;
-            $page = 0;
-            $listPage = NULL;
-    }
-
-        return $this->render('Devis/listDevis.html.twig', array( 'listdevis' => $devis, 'listClient' => $client, 'maxResult' => $nb, 'nbPage' => $nbPage, 'page' => $page, 'listPage' => $listPage));
-
+        return $this->render('Devis/tabDevis.html.twig', array( 'listdevis' => $devis, 'listClient' => $client, 'maxResult' => $nb, 'nbPage' => $nbPage, 'page' => $page, 'listPage' => $listPage));
     }
 
     /**

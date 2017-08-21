@@ -12,9 +12,11 @@ class Devis
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Client")
+     * @ORM\JoinColumn(nullable=false)
      */
 
     private $client;
+
 
     /**
      * @var int
@@ -71,17 +73,6 @@ class Devis
      */
     public $idUser;
 
-    public function setAdvert(Client $client)
-    {
-        $this->client = $client;
-
-        return $this;
-    }
-
-    public function getAdvert()
-    {
-        return $this->client;
-    }
 
     /**
      * Get id
@@ -331,6 +322,19 @@ class Devis
     public function getIdUser()
     {
         return $this->idUser;
+    }
+
+
+    public function setClient(Client $client)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    public function getClient()
+    {
+        return $this->client;
     }
 
 }

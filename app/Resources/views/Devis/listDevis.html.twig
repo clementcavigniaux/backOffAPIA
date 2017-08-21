@@ -1,4 +1,11 @@
+<div class="row">
+    <div class="col s8">
 <h3>Liste des Devis</h3>
+    </div>
+<div class="col s4">
+    <input id="searchbar" type="text" name="searchbar" placeholder="Rechercher...">
+</div>
+</div>
 <div class="tab">
 
     <div id="action" style="display: none">
@@ -7,62 +14,11 @@
     <img src="{{ asset_url }}" alt="delete" class="trash" id="suppr"/>
 {% endimage %}
     </div>
-<table class="striped tab_devis">
-    <thead>
-    <tr>
-        <th></th>
-        <th>Titre</th>
-        <th>Client</th>
-        <th>Type</th>
-        <th>Prix</th>
-        <th>Date de création</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for key, devis in listdevis %}
-    <tr class="devis_item" data-id="{{ devis.id }}">
+<div id="table">
 
-        <td class="tdCheck">
-            <input type="checkbox" id="{{ devis.id }}" data="{{ devis.id }}" class="checkBox"/>
-            <label for="{{ devis.id }}"></label>
-        </td>
-            <td>{{ devis.titreprojet }}</td>
-            <td>
+</div>
 
-                {% for key, client in listClient %}
-                    {% if devis.idClient == client.id %}
-                {{ client.nom }}
-                {% endif %}
-                {% endfor %}
-            </td>
-            <td>
-            {% for key, item in devis.typepresta %}
-                {{ item }}
-            {% endfor %}
-            </td>
-        <td>{{ devis.prixTotal }}€</td>
-            <td>{{ devis.datecreation|date('d/m/Y') }}</td>
-
-    </tr>
-    {% endfor%}
-
-    </tbody>
-</table>
-
-    <ul class="pagination">
-        <li id="Prev">
-                {% image '@AppBundle/Resources/public/img/leftChevron.svg' %}
-                <img src="{{ asset_url }}" alt="précédent" class="chevron"/>
-                {% endimage %}</li>
-            {% for key, p in listPage %}
-                <li class="numPage {{ p }}">{{ p }}</li>
-            {% endfor%}
-        <li id="Next">
-                {% image '@AppBundle/Resources/public/img/rightChevron.svg' %}
-                <img src="{{ asset_url }}" alt="suivant" class="chevron"/>
-                {% endimage %}</li>
-    </ul>
-    <i class="grey-info right">{{ maxResult }} résultat(s)</i>
+    </table>
 
     {% if is_granted('ROLE_REGIS') or is_granted('ROLE_TRESOR') %}
 
@@ -76,23 +32,12 @@
 
 
 <script>
-
-    $page = {{ page }};
-    $maxresult = {{ maxResult }};
-    $nbPage = {{ nbPage }};
-
-$(".checkBox").on('change', function () {
-    if($(".checkBox").is(':checked')) {
-            $('#action').slideDown(400);
-    }else{
-        $('#action').slideUp(400);
-    }
-});
+    $('#table').load("{{ path('TabDevis') }}");
 
     $('#suppr').click(function () {
 
         swal({
-                title: "Etes-vous sure ?",
+                title: "Êtes-vous sûr ?",
                 text: "Il sera impossible de le récuperer !",
                 type: "warning",
                 showCancelButton: true,
@@ -111,7 +56,6 @@ $(".checkBox").on('change', function () {
                             values.push($(this).attr('data'));
                         }
                     });
-                    console.log(values);
 
                     $.ajax({
                         type: 'POST',
@@ -122,6 +66,8 @@ $(".checkBox").on('change', function () {
                             200: function (response) {
                                 Materialize.toast(response, 2000);
                                 swal("Supprimé!", "Le devis a été supprimé.", "success");
+                                $('#action').slideUp(400);
+                                $('#table').load('{{ path('TabDevis') }}');
                             },
 
                             412: function (response) {
@@ -140,81 +86,21 @@ $(".checkBox").on('change', function () {
 
     });
 
-    if( $maxresult < 1 ){
-        $('tbody').append("<tr id='noData'><td colspan='5' class='center'><p id='noDataText'>Aucun résultat</p></td></tr>");
 
-        $('#noData').on('mouseenter', function () {
-            $('#noDataText').html("<p>Créez un nouveau devis</p>");
-        });
-        $('#noData').on('mouseout', function () {
-            $('#noDataText').html("<p id='noDataText'>Aucun résultat</p>");
-        });
-    }else if($maxresult < 10){
-        $('.pagination').addClass('hidden');
-    }
 
-    $('.numPage').click(function () {
+    $('#searchbar').keyup(function () {
 
-       $page = $(this).html();
-       $max = 10 * $page;
-       $min = 10 * $page - 10;
+$value = $(this).val();
 
-        $('#Content').load("{{ path('devis') }}",{
+if($value.length > 0) {
 
-            min : $min,
-            max : $max,
-            page : $page
-        });
 
+            $('#table').load('{{ path('TabDevis') }}',{
+               req : $value
+            });
+        }else{
+    $('#table').load('{{ path('TabDevis') }}');
+}
     });
-
-    $('.{{ page }}').addClass('active');
-        $("#CreateDevis").click(function(){
-       $("#Content").load("{{ path('newdevis') }}");
-    });
-
-    $(".devis_em").click(function () {
-
-       $("#Content").load("{{ path('singleDevis') }}", {id: $(this).data("id")});
-    });
-
-    $('#Next').on('click', function () {
-
-        $min = $('.devis_item').last().attr('data-id');
-
-        $page = $page + 1;
-        $('#Content').load("{{ path('devis') }}",{
-
-            min : $min,
-            max : $max,
-            page : $page
-        });
-    });
-        $('#Prev').on('click', function () {
-            if(typeof $min !== "undefined") {
-
-                $(this).removeClass('hidden');
-
-                $min = $min - 10;
-                $max = $max - 10;
-                $page = $page - 1;
-                $('#Content').load("{{ path('devis') }}",{
-
-                    min : $min,
-                    max : $max,
-                    page : $page
-                });
-            }
-        });
-    function verifPage() {
-
-            if ($page === $nbPage) {
-                $("#Next").addClass('hidden');
-            }else if( $page === 1){
-                $("#Prev").addClass('hidden');
-
-            }
-    }
-    verifPage();
 
 </script>

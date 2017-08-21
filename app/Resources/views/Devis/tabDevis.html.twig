@@ -1,0 +1,144 @@
+<table class="striped tab_devis">
+<thead>
+    <tr>
+        <th></th>
+        <th>Titre</th>
+        <th>Client</th>
+        <th>Type</th>
+        <th>Prix</th>
+        <th>Date de création</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for key, devis in listdevis %}
+        <tr class="devis_item" data-id="{{ devis.id }}">
+
+            <td class="tdCheck">
+                <input type="checkbox" id="{{ devis.id }}" data="{{ devis.id }}" class="checkBox"/>
+                <label for="{{ devis.id }}"></label>
+            </td>
+            <td>{{ devis.titreprojet }}</td>
+            <td>
+
+                {% for key, client in listClient %}
+                    {% if devis.idClient == client.id %}
+                        {{ client.nom }}
+                    {% endif %}
+                {% endfor %}
+            </td>
+            <td>
+                {% for key, item in devis.typepresta %}
+                    {{ item }}
+                {% endfor %}
+            </td>
+            <td>{{ devis.prixTotal }}€</td>
+            <td>{{ devis.datecreation|date('d/m/Y') }}</td>
+
+        </tr>
+    {% endfor%}
+
+    </tbody>
+</table>
+
+<ul class="pagination">
+    <li id="Prev">
+        {% image '@AppBundle/Resources/public/img/leftChevron.svg' %}
+        <img src="{{ asset_url }}" alt="précédent" class="chevron"/>
+        {% endimage %}</li>
+    {% for key, p in listPage %}
+        <li class="numPage {{ p }}">{{ p }}</li>
+    {% endfor%}
+    <li id="Next">
+        {% image '@AppBundle/Resources/public/img/rightChevron.svg' %}
+        <img src="{{ asset_url }}" alt="suivant" class="chevron"/>
+        {% endimage %}</li>
+</ul>
+<i class="grey-info right">{{ maxResult }} résultat(s)</i>
+
+ <script>
+     $page = {{ page }};
+     $maxresult = {{ maxResult }};
+     $nbPage = {{ nbPage }};
+
+     $(".checkBox").on('change', function () {
+         if($(".checkBox").is(':checked')) {
+             $('#action').slideDown(400);
+         }else{
+             $('#action').slideUp(400);
+         }
+     });
+
+
+     if( $maxresult < 1 ){
+         $('tbody').append("<tr id='noData'><td colspan='5' class='center'><p id='noDataText'>Aucun résultat</p></td></tr>");
+
+         $('#noData').on('mouseenter', function () {
+             $('#noDataText').html("<p>Créez un nouveau devis</p>");
+         });
+         $('#noData').on('mouseout', function () {
+             $('#noDataText').html("<p id='noDataText'>Aucun résultat</p>");
+         });
+     }else if($maxresult < 10){
+         $('.pagination').addClass('hidden');
+     }
+
+     $('.numPage').click(function () {
+
+         $page = $(this).html();
+         $min = 10 * $page - 10;
+
+         $('#table').load("{{ path('TabDevis') }}",{
+
+             min : $min,
+             page : $page
+         });
+
+     });
+
+     $('.{{ page }}').addClass('active');
+     $("#CreateDevis").click(function(){
+         $("#Content").load("{{ path('newdevis') }}");
+     });
+
+     $(".devis").click(function () {
+
+         $("#table").load("{{ path('singleDevis') }}", {id: $(this).data("id")});
+     });
+
+     $('#Next').on('click', function () {
+
+         $min = $('.devis_item').last().attr('data-id');
+         $page = $page + 1;
+         $('#table').load("{{ path('TabDevis') }}",{
+
+             min : $min,
+             page : $page
+         });
+     });
+     $('#Prev').on('click', function () {
+         if(typeof $min !== "undefined") {
+
+             $(this).removeClass('hidden');
+
+             $min = $min + 10;
+             $page = $page - 1;
+             $('#table').load("{{ path('TabDevis') }}",{
+
+                 min : $min,
+                 page : $page
+             });
+         }
+     });
+     function verifPage() {
+
+         if ($page === $nbPage) {
+             $("#Next").addClass('hidden');
+         }else if( $page === 1){
+             $("#Prev").addClass('hidden');
+
+         }
+     }
+     verifPage();
+
+
+ </script>

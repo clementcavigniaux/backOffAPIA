@@ -87,14 +87,11 @@
                     statusCode: {
 
                         200: function () {
-                            $response = "Modification réussi";
-                            Materialize.toast($response, 2000);
+                            swal("Enregistré!", "Les changements ont été pris en compte", "success");
                         },
 
-                        404: function (response) {
-                            Materialize.toast(response.responseText, 2000);
-                            alert('wrong');
-                            console.log(responseText);
+                        404: function () {
+                            swal("Erreur!", "Une erreur est survenue", "error");
 
                         }
                     }
@@ -117,14 +114,11 @@
                 statusCode: {
 
                     200: function (responseText) {
-                        Materialize.toast(responseText, 2000);
-                        alert('ok');
+                        swal("Enregistré!", "Les changements ont été pris en compte", "success")
                     },
 
                     404: function (response) {
-                        Materialize.toast(response.responseText, 2000);
-                        alert('wrong');
-                        console.log(responseText);
+                        swal("Erreur!", "Une erreur est survenue", "error");
 
                     }
                 }
@@ -146,15 +140,12 @@
                 data: values,
                 statusCode: {
 
-                    200: function (responseText) {
-                        Materialize.toast(responseText, 2000);
-                        alert('ok');
+                    200: function () {
+                        swal("Enregistré!", "Les changements ont été pris en compte", "success")
                     },
 
-                    404: function (response) {
-                        Materialize.toast(response.responseText, 2000);
-                        alert('wrong');
-                        console.log(responseText);
+                    404: function () {
+                        swal("Erreur!", "Une erreur est survenue", "error");
 
                     }
                 }

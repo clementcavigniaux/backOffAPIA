@@ -14,8 +14,6 @@
         {% stylesheets 'css/main.css' filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
-
-        {% stylesheets output='font/roboto//Roboto-Regular.woff'%}{% endstylesheets %}
     </head>
     <body>
 
@@ -49,13 +47,7 @@
     <script>
 
         $('#Show-Devis').click(function () {
-            $min = 1;
-            $max = 10;
-            $('#Content').load("{{ path('devis') }}", {
-
-                min: $min,
-                max: $max
-            });
+            $('#Content').load("{{ path('devis') }}");
         });
         $('#Home').click(function () {
             $(this).addClass('active');
