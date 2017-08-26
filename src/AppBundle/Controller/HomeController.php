@@ -20,8 +20,35 @@ class HomeController extends Controller
     public function showHome()
     {
 
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery('SELECT COUNT(n) FROM AppBundle:Brouillon n');
+        $count = $query->getResult();
 
-        return $this->render('Home/home.html.twig');
+        foreach ($count as $item) {
+            $result = $item[1];
+        }
+        $brouillon = $result;
+
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery('SELECT COUNT(n) FROM AppBundle:Devis n');
+        $count = $query->getResult();
+
+        foreach ($count as $item) {
+            $result = $item[1];
+        }
+        $devis = $result;
+
+
+        $query = $em->createQuery('SELECT COUNT(c) FROM AppBundle:Client c');
+        $count = $query->getResult();
+
+        foreach ($count as $item) {
+
+            $result = $item[1];
+        }
+        $client = $result;
+
+        return $this->render('Home/home.html.twig', array('devis' => $devis, 'nbBrouillon' => $brouillon, 'client' => $client));
 
 }
 }

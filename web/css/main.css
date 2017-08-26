@@ -172,8 +172,7 @@ select {
   min-height: 100vh;
   position: fixed;
   top: 0;
-  left: 0;
-  transition-duration: 10s; }
+  left: 0; }
 
 .alert {
   width: 100%;
@@ -254,19 +253,18 @@ select {
   padding: 10px; }
 
 /* HOME*/
-.HomeBloc {
-  background-color: white;
-  width: 33%;
-  padding: 10px;
-  margin-right: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  -o-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); }
-
-.homeListBloc {
-  display: flex;
-  margin-bottom: 50px; }
+.Home {
+  margin-top: 10%; }
+  .Home-nb {
+    color: #C62828;
+    font-size: 18px; }
+  .Home-adhe {
+    border-right: 1px solid #808080;
+    text-align: center; }
+    .Home-adhe-icon {
+      width: 80px; }
+    .Home-adhe-nb {
+      font-size: 50px; }
 
 /* ADHE  */
 .column-label {
@@ -346,11 +344,9 @@ select {
     background-color: initial !important; }
 
 .rowActive {
-  background-color: #C62828 !important;
-  color: #f4f4f4;
   transition: .5s; }
   .rowActive:hover {
-    background-color: #C62828 !important; }
+    background-color: #c6c6c6 !important; }
 
 #formNewUser h5 {
   text-align: center; }

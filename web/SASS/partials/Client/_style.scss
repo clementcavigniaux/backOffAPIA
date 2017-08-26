@@ -7,11 +7,10 @@
   }
 }
 .rowActive {
-  background-color: $maincolor !important;
-  color: $white;
+  //background-color: darken($fond, 15%) !important;
   transition: .5s;
   &:hover {
-    background-color: $maincolor !important;
+    background-color: darken($fond, 20%) !important;
 
   }
 }

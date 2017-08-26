@@ -33,7 +33,6 @@
 
     <div id="Content">
         {% block body %}
-            {{ include ('Home/home.html.twig') }}
 
         {% endblock %}
     </div>
@@ -44,7 +43,9 @@
     {% endjavascripts %}
    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
 -->
+
     <script>
+        $('#Content').load("{{ path('home') }}");
 
         $('#Show-Devis').click(function () {
             $('#Content').load("{{ path('devis') }}");
@@ -74,27 +75,7 @@
         });
 
 
-        $('.button-collapse').sideNav({
-                menuWidth: 300,
-                edge: 'right'
-            }
-        );
-        $('#navbar li').click(function () {
-           $('.item-navbar').removeClass('active');
-           $(this).addClass('active');
-        });
 
-        $('#Collapse').click(function () {
-            $("#header").css('left', '-500px');
-            $("#navCollapse").css('left', '50px');
-           $('#Content').addClass('headerFull');
-        });
-
-        $('#navCollapse').on('click', function () {
-            $("#header").css('left', '0px');
-            $("#navCollapse").css('left', '-500px');
-            $('#Content').removeClass('headerFull');
-        });
     </script>
 
     </body>

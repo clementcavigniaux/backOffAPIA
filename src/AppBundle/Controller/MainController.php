@@ -16,17 +16,7 @@ class MainController extends Controller
      */
     public function showMain(){
 
-
-            $em = $this->getDoctrine()->getManager();
-            $query = $em->createQuery('SELECT COUNT(n) FROM AppBundle:Brouillon n');
-            $count = $query->getResult();
-
-            foreach ($count as $item) {
-                $nb = $item[1];
-            }
-
-
-        return $this->render('base.html.twig', array('nbBrouillon' => $nb));
+        return $this->render('base.html.twig');
     }
 
 }

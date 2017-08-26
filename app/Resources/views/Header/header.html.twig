@@ -28,7 +28,7 @@
                 <li><a class="sousMenuItem" id="Show-Devis">Voir les devis</a></li>
                 {% if is_granted('ROLE_REGIS') or is_granted('ROLE_TRESOR') %}
                 <li><a class="sousMenuItem" id="createdevis">Créer un devis</a></li>
-                    <li><a class="sousMenuItem" id="brouillons">Brouillons <span class="notif">{{ nbBrouillon }}</span></a></li>
+                    <li><a class="sousMenuItem" id="brouillons">Brouillons</a></li>
                 {% endif %}
             </ul>
                 </div>

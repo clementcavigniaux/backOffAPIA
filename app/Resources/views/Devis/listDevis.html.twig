@@ -86,21 +86,24 @@
 
     });
 
-
-
     $('#searchbar').keyup(function () {
 
-$value = $(this).val();
+        $value = $(this).val();
+        $page = 0;
 
-if($value.length > 0) {
-
+        if($value.length > 0) {
 
             $('#table').load('{{ path('TabDevis') }}',{
-               req : $value
+               req : $value,
+                page : $page
             });
+
         }else{
-    $('#table').load('{{ path('TabDevis') }}');
-}
+
+            $('#table').load('{{ path('TabDevis') }}');
+
+        }
+        verifPage();
     });
 
 </script>

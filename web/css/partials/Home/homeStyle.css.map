@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "AAGA,SAAS;EACP,gBAAgB,EAAE,KAAK;EACvB,KAAK,EAAC,GAAG;EACT,OAAO,EAAE,IAAI;EACb,YAAY,EAAE,IAAI;ECNlB,UAAU,EAAE,4DAAsD;EAClE,kBAAkB,EAAE,4DAAsD;EAC1E,eAAe,EAAE,4DAAsD;EACvE,aAAa,EAAE,4DAAsD;;ADOvE,aAAa;EACX,OAAO,EAAE,IAAI;EACb,aAAa,EAAE,IAAI",
-"sources": ["../../../SASS/partials/Home/homeStyle.scss","../../../SASS/partials/_mixins.scss"],
+"mappings": "AAEA,KAAK;EACH,UAAU,EAAE,GAAG;EAEb,eAAM;IACJ,KAAK,EAAE,IAAI;EAEb,aAAI;IACF,SAAS,EAAE,IAAI",
+"sources": ["../../../SASS/partials/Home/homeStyle.scss"],
 "names": [],
 "file": "homeStyle.css"
 }

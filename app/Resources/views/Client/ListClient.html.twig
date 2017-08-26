@@ -1,52 +1,15 @@
+<div class="row">
+    <div class="col s8">
+        <h3>Liste des Clients</h3>
+    </div>
+    <div class="col s4">
+        <input id="searchbar" type="text" name="searchbar" placeholder="Rechercher...">
+    </div>
+</div>
 <div class="tab">
-    <table class="striped responsive-table tab_devis">
-        <thead>
-        <tr class="rowLabel">
-            <th>Nom</th>
-            <th>Type</th>
-            <th>Rue</th>
-            <th>Ville</th>
-            <th>Email</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for key, client in listclient  %}
-            <tr data-id="{{ client.id }}" class="rowtab">
-                <td>{{ client.Nom }}</td>
-                <td>{{ client.Type }}</td>
-                <td>{{ client.Rue }}</td>
-                <td>{{ client.Ville }}</td>
-                <td>{{ client.Email }}</td>
-            </tr>
+    <div id="table">
+    </div>
 
-        {% endfor%}
-
-                <script>
-
-                    $('.rowtab').after("<tr id='more' class='more_row' style='display: none;'><td></td></tr>");
-
-                $('.rowtab').click(function () {
-                    var status = $(this).hasClass('rowActive');
-
-
-                    if (status === true){
-                        $(this).removeClass('rowActive');
-                        $(this).next().slideToggle(80);
-
-                    }else {
-
-                        $(this).next().slideToggle(500).html(" ");
-                        $('.rowtab').removeClass('rowActive');
-                        $(this).next().load('{{ path('singleClient') }}', {id: $(this).data("id")});
-                        $(this).addClass('rowActive');
-                        return false;
-
-                    }
-                    });
-            </script>
-
-        </tbody>
-    </table>
     {% if is_granted('ROLE_REGIS') or is_granted('ROLE_TRESOR') %}
     <div class="tab_modification">
         <a href="#" class="btn" id="NewClient">Ajouter un client</a>
@@ -58,6 +21,7 @@
 
 <script>
 
+    $('#table').load("{{ path('tabClient') }}");
 
     $("#NewClient").click(function(){
         $("#popin").load("{{ path('newclient') }}").fadeIn();
@@ -68,7 +32,27 @@
         $('#popin').fadeOut(200);
         $(this).fadeOut(200);
 
-    })
+    });
+
+    $('#searchbar').keyup(function () {
+
+        $value = $(this).val();
+        $page = 0;
+
+        if($value.length > 0) {
+
+            $('#table').load('{{ path('tabClient') }}',{
+                req : $value,
+                page : $page
+            });
+
+        }else{
+
+            $('#table').load('{{ path('tabClient') }}');
+
+        }
+        verifPage();
+    });
 
 
 </script>

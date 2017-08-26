@@ -1,15 +1,19 @@
 @import "../mixins";
 
-
-.HomeBloc{
-  background-color: white;
-  width:33%;
-  padding: 10px;
-  margin-right: 20px;
-  @include box-shadow-1;
-
-}
-.homeListBloc{
-  display: flex;
-  margin-bottom: 50px;
+.Home{
+  margin-top: 10%;
+  &-nb{
+    color: $maincolor;
+    font-size: 18px;
+  }
+  &-adhe{
+    border-right: 1px solid $grey;
+    text-align: center;
+    &-icon{
+      width: 80px;
+    }
+    &-nb{
+      font-size: 50px;
+    }
+  }
 }

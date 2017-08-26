@@ -40,7 +40,7 @@
     </tbody>
 </table>
 
-<ul class="pagination">
+<ul id="pagination" class="pagination">
     <li id="Prev">
         {% image '@AppBundle/Resources/public/img/leftChevron.svg' %}
         <img src="{{ asset_url }}" alt="précédent" class="chevron"/>
@@ -79,7 +79,7 @@
              $('#noDataText').html("<p id='noDataText'>Aucun résultat</p>");
          });
      }else if($maxresult < 10){
-         $('.pagination').addClass('hidden');
+         $('#pagination').addClass('hidden');
      }
 
      $('.numPage').click(function () {
@@ -96,14 +96,6 @@
      });
 
      $('.{{ page }}').addClass('active');
-     $("#CreateDevis").click(function(){
-         $("#Content").load("{{ path('newdevis') }}");
-     });
-
-     $(".devis").click(function () {
-
-         $("#table").load("{{ path('singleDevis') }}", {id: $(this).data("id")});
-     });
 
      $('#Next').on('click', function () {
 
@@ -129,16 +121,16 @@
              });
          }
      });
-     function verifPage() {
-
-         if ($page === $nbPage) {
-             $("#Next").addClass('hidden');
-         }else if( $page === 1){
-             $("#Prev").addClass('hidden');
-
-         }
-     }
      verifPage();
+
+     $("#CreateDevis").click(function(){
+         $("#Content").load("{{ path('newdevis') }}");
+     });
+
+     $(".devis").click(function () {
+
+         $("#table").load("{{ path('singleDevis') }}", {id: $(this).data("id")});
+     });
 
 
  </script>

@@ -1,0 +1,124 @@
+<table class="striped responsive-table tab_devis">
+    <thead>
+    <tr class="rowLabel">
+        <th>Nom</th>
+        <th>Type</th>
+        <th>Rue</th>
+        <th>Ville</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for key, client in listclient  %}
+        <tr data-id="{{ client.id }}" class="rowtab">
+            <td>{{ client.Nom }}</td>
+            <td>{{ client.Type }}</td>
+            <td>{{ client.Rue }}</td>
+            <td>{{ client.Ville }}</td>
+            <td>{{ client.Email }}</td>
+        </tr>
+
+    {% endfor%}
+
+    <script>
+
+        $('.rowtab').after("<tr id='more' class='more_row' style='display: none;'><td></td></tr>");
+
+        $('.rowtab').click(function () {
+            var status = $(this).hasClass('rowActive');
+
+
+            if (status === true){
+                $(this).removeClass('rowActive');
+                $(this).next().slideToggle(80);
+
+            }else {
+
+                $(this).next().slideToggle(500).html(" ");
+                $('.rowtab').removeClass('rowActive');
+                $(this).next().load('{{ path('singleClient') }}', {id: $(this).data("id")});
+                $(this).addClass('rowActive');
+                return false;
+
+            }
+        });
+
+    </script>
+
+    </tbody>
+</table>
+<ul id="pagination" class="pagination">
+    <li id="Prev">
+        {% image '@AppBundle/Resources/public/img/leftChevron.svg' %}
+        <img src="{{ asset_url }}" alt="précédent" class="chevron"/>
+        {% endimage %}</li>
+    {% for key, p in listPage %}
+        <li class="numPage {{ p }}">{{ p }}</li>
+    {% endfor%}
+    <li id="Next">
+        {% image '@AppBundle/Resources/public/img/rightChevron.svg' %}
+        <img src="{{ asset_url }}" alt="suivant" class="chevron"/>
+        {% endimage %}</li>
+</ul>
+<i class="grey-info right">{{ maxResult }} résultat(s)</i>
+
+<script>
+    $page = {{ page }};
+    $maxresult = {{ maxResult }};
+    $nbPage = {{ nbPage }};
+
+    if( $maxresult < 1 ){
+        $('tbody').append("<tr id='noData'><td colspan='5' class='center'><p id='noDataText'>Aucun résultat</p></td></tr>");
+
+        $('#noData').on('mouseenter', function () {
+            $('#noDataText').html("<p>Créez un nouveau devis</p>");
+        });
+        $('#noData').on('mouseout', function () {
+            $('#noDataText').html("<p id='noDataText'>Aucun résultat</p>");
+        });
+    }else if($maxresult < 10){
+        $('#pagination').addClass('hidden');
+    }
+
+    $('.numPage').click(function () {
+
+        $page = $(this).html();
+        $min = 10 * $page - 10;
+
+        $('#table').load("{{ path('TabDevis') }}",{
+
+            min : $min,
+            page : $page
+        });
+
+    });
+
+    $('.{{ page }}').addClass('active');
+
+    $('#Next').on('click', function () {
+
+        $min = $('.devis_item').last().attr('data-id');
+        $page = $page + 1;
+        $('#table').load("{{ path('TabDevis') }}",{
+
+            min : $min,
+            page : $page
+        });
+    });
+    $('#Prev').on('click', function () {
+        if(typeof $min !== "undefined") {
+
+            $(this).removeClass('hidden');
+
+            $min = $min + 10;
+            $page = $page - 1;
+            $('#table').load("{{ path('TabDevis') }}",{
+
+                min : $min,
+                page : $page
+            });
+        }
+    });
+    verifPage();
+
+</script>

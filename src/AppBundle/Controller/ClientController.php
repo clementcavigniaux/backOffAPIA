@@ -62,9 +62,75 @@ class ClientController extends Controller
      */
     public function ListClient(){
 
+
+
+
+        return $this->render('Client/ListClient.html.twig');
+    }
+
+    /**
+     * @Route("/tabClient", name="tabClient")
+     */
+
+    public function getTable(){
+
         $em = $this->container->get("doctrine.orm.default_entity_manager");
-        $client = $em->getRepository(Client::class)->findAll();
-        return $this->render('Client/ListClient.html.twig', array( 'listclient' => $client));
+
+        $query = $em->createQuery('SELECT COUNT(c) FROM AppBundle:Client c');
+        $count = $query->getResult();
+
+        $query2 = $em ->createQuery('SELECT MAX(c.id) FROM AppBundle:Client c');
+        $last = $query2->getResult();
+
+        foreach ($count as $item) {
+            $nb = $item[1];
+        }
+        if ($nb > 0) {
+            if (!empty($_POST['min'])) {
+                $min = $_POST['min'];
+
+
+                if (!empty($_POST['page'])) {
+                    $page = $_POST['page'];
+                } else {
+                    $page = 1;
+                }
+
+            } else {
+                $min = $last;
+                $page = 1;
+            }
+            if(!empty($_POST['req'])){
+
+                $req = $_POST['req'];
+                $page = $_POST['page'];
+                $query = $em->createQuery('SELECT c FROM AppBundle:Client c WHERE c.email LIKE :req OR c.nom LIKE :req')->setParameter('req' , '%'.$req.'%');
+                $client = $query->getResult();
+                $nbPage = 0;
+
+            }elseif($min <= $last) {
+
+                $query = $em->createQuery('SELECT c FROM AppBundle:Client c WHERE c.id <= :min ORDER BY c.nom ASC')->setParameter('min', $min)->setMaxResults(10);
+                $client = $query->getResult();
+
+                $nbPage = ceil($nb / 10);
+            }
+
+
+            $listPage = [];
+
+            for ($i = 0; $i < $nbPage; $i++) {
+
+                $somme = $i + 1;
+                $listPage[] = $somme;
+            }
+        } else {
+            $client = [];
+            $nbPage = 0;
+            $page = 0;
+            $listPage = NULL;
+        }
+        return $this->render('Client/tabClient.html.twig', array('listclient' => $client, 'maxResult' => $nb, 'nbPage' => $nbPage, 'page' => $page, 'listPage' => $listPage));
     }
 
 
@@ -136,21 +202,6 @@ public function RemoveClient(Request $request){
 
                 return $this->render('Client/SingleClient.html.twig', array('listtest' => $client));
 
-    }
-
-    /**
-     * @Route("/jointest", name="join")
-     */
-
-    public function JoinClient(){
-
-        $idClient = $_POST;
-
-        $em = $this->container->get("doctrine.orm.default_entity_manager");
-        $client = $em->getRepository(Client::class)->createQueryBuilder('e')->join('AppBundle:Devis', 'r')->where('r.idClient = e.id')->getQuery()->getResult();
-
-
-        return $this->render('test.html.twig', array( 'data' => $client));
     }
 
 

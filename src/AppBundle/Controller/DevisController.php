@@ -73,19 +73,21 @@ class DevisController extends Controller
                 if(!empty($_POST['req'])){
 
                     $req = $_POST['req'];
+                    $page = $_POST['page'];
                     $em = $this->container->get("doctrine.orm.default_entity_manager");
                     $query = $em->createQuery('SELECT d FROM AppBundle:Devis d WHERE d.titreProjet LIKE :req OR d.typePresta LIKE :req')->setParameter('req' , '%'.$req.'%');
                     //$query = $em->createQuery('SELECT d, c FROM AppBundle:Devis d JOIN AppBundle::Client c ON d.idClient = c.id  WHERE  d.titreProjet LIKE :req OR d.typePresta LIKE :req')->setParameter('req' , '%'.$req.'%');
                     $devis = $query->getResult();
+                    $nbPage = 0;
 
                 }elseif($min <= $last) {
                     $em = $this->getDoctrine()->getManager();
                     $query = $em->createQuery('SELECT d FROM AppBundle:Devis d WHERE d.id <= :min ORDER BY d.id DESC')->setParameter('min', $min)->setMaxResults(10);
                     $devis = $query->getResult();
 
+                $nbPage = ceil($nb / 10);
                 }
 
-                $nbPage = ceil($nb / 10);
 
                 $listPage = [];
 
